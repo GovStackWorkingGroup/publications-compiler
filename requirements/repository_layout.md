@@ -35,12 +35,23 @@ GovStack Process, chapter *Compiling Publications*, section *Repository layout*.
   the profile, which `metadata_parser.md` reads from the `urn`. If the profile cannot be read, check
   everything except req-3 and req-4.
 
+## File and folder names
+
+The naming rule is set in the GovStack Process, chapter *Compiling Publications*, section *Repository layout*: "Files are named using `snake_case`, except for requirement files, which are named using `kebab-case`." Folder names do not follow it; a folder is allowed only if the layout above lists it.
+
+A file name is checked without its extension. `snake_case` is lower-case letters and digits, separated by single underscores, starting with a letter, for example `data_model`. `kebab-case` is the same with single hyphens, for example `credential-intake`. The extension is lower case.
+
+- repository_layout#req-10: fail for every file whose name is not `snake_case`, for example `Data Model.md`, `dataModel.md` or `data-model.md`. Give the `snake_case` name in the message.
+- repository_layout#req-11: in the spec profile, fail for every requirement file (a Markdown file under `requirements/`) whose name is not `kebab-case`, instead of req-10. Give the `kebab-case` name in the message.
+- repository_layout#req-12: leave out of req-10 and req-11 the files req-8 accepts at the root (`README.md`, `LICENSE`, `CHANGELOG.md`, `RELEASE_NOTES.md`), files under `ADR/` (their names are decision identifiers, such as `PROC-ADR-1.md`), and files and folders whose name starts with `.`, such as `.github/CODEOWNERS`.
+- repository_layout#req-13: fail for every folder at the root that is not in the layout above, except folders whose name starts with `.`. Folder names are not checked against req-10. This replaces req-8 for folders; req-8 still warns for files. Folders inside the folders of the layout, such as `assets/diagrams/` or `resources/api/`, are free to name and are not checked.
+- repository_layout#req-14: check only the files and folders tracked by git, so that a folder kept out of the repository, such as a local `research/`, is not checked, and a local run reports what a run on GitHub reports.
+
 ## Open
 
-- [ ] The Specification Framework (`govstack:spec`, spec profile) has `chapters/` and
-  `requirements/`, and its `toc.yml` lists `chapters`. Either the framework is a special case of
-  the spec profile, or its requirement files move, or req-3 and req-5 change.
-- [ ] `research/` exists in the GovStack Process and the Specification Framework. Is it part of the
-  layout, or does req-8 warn for it?
 - [ ] Repository settings (branch rule, tag rule) cannot be read from the files. Checking them
   needs the GitHub API and a token with admin read rights.
+
+## Deferred
+
+- The Specification Framework (`govstack:spec`, spec profile) has `chapters/` and `requirements/`, and its `toc.yml` lists `chapters`. Either the framework is a special case of the spec profile, or its requirement files move, or req-3 and req-5 change. Its layout is not final, so this waits until it is.
