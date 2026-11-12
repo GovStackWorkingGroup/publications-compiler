@@ -31,6 +31,9 @@ with optional YAML front matter, or one of the YAML pages listed in `toc_parser#
   optional fragment, for example `govstack:spec:bb:wallet#req-4`. Resolve it with
   `records_client.md` to the URL of the latest version. Warn if it does not resolve. Skip with
   `--offline`.
+- page_parser#req-16: resolve a link or image path that starts with `/` from the root of the publication repository, not from the folder of the page. A page anywhere in the repository references an asset as `/assets/<path>`, for example `![Flow](/assets/diagrams/flow.png)` in `requirements/intake.md` and in `introduction/overview.md` alike. GitHub resolves the same path from the repository root when browsing the source, so the page shows its images in both places.
+- page_parser#req-17: warn if a page references a file under `assets/` with a path relative to the page, such as `../assets/flow.png`, and give the `/assets/…` form in the message. Resolve the relative path anyway, so the page still renders.
+- page_parser#req-18: each publication keeps its own `assets/`. A path that starts with `/` names a file of this repository only, so req-7 and req-11 apply to it. A page does not reference the assets of another publication; it links to that publication with req-12.
 
 ## Diagrams
 

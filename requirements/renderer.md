@@ -1,75 +1,68 @@
 # Renderer
 
-Renders the book: a static website of one version of a publication. The outputs are set in the
-GovStack Process, chapter *Compiling Publications*, section *Outputs*.
+Renders the book: a static website of one version of a publication. The outputs are set in the GovStack Process, chapter *Compiling Publications*, section *Outputs*.
 
 ## When it runs
 
-- renderer#req-1: render only on release, only for a version without a pre-release suffix, and
-  only if no check reported an error (`index#req-8`).
-- renderer#req-2: render on any run when given `--render <dir>`, so that a Working Group can
-  preview the book locally. A preview is not deployed.
+- renderer#req-1: render only on release, only for a version without a pre-release suffix, and only if no check reported an error (`index#req-8`).
+- renderer#req-2: render on any run when given `--render <dir>`, so that a Working Group can preview the book locally. A preview is not deployed.
 
 ## The book
 
 - renderer#req-3: write the book of the version to `<output>/<url_suffix>/`.
 - renderer#req-4: if the version is marked `latest`, also write it to the path of `url`.
-- renderer#req-5: title the book with `name` followed by the name of the publication type, read
-  from the profile and the `urn`. For example, `name: Wallet` and `urn: govstack:spec:bb:wallet`
-  give *Wallet Building Block Specification*.
-- renderer#req-6: render a front page with the title, `abstract`, the version, its `release_date`
-  and `short_description`, the `urn`, the owner group and the authors with their roles.
-- renderer#req-7: render a navigation that follows `toc.yml`: sections, then subsections as
-  headings, then pages, in the order listed.
-- renderer#req-8: render a version list from `versions` in `metadata.yml`, with a link to each
-  released version at its `url_suffix`.
+- renderer#req-5: title the book with `name` followed by the name of the publication type, read from the profile and the `urn`. For example, `name: Wallet` and `urn: govstack:spec:bb:wallet` give *Wallet Building Block Specification*.
+- renderer#req-6: render a front page with the title, `abstract`, the version, its `release_date` and `short_description`, the `urn`, the owner group and the authors with their roles.
+- renderer#req-7: render a navigation that follows `toc.yml`: sections, then subsections as headings, then pages, in the order listed.
+- renderer#req-8: render a version list from `versions` in `metadata.yml`, with a link to each released version at its `url_suffix`.
 - renderer#req-9: render every page listed in `toc.yml` and no other page.
 - renderer#req-10: copy `assets/` and every file a page links to into the book.
+- renderer#req-26: copy `assets/` to `<output>/<url_suffix>/assets/`, and to the path of `url` when req-4 applies, and rewrite every `/assets/<path>` reference (`page_parser#req-16`) to that version's copy. Each version of the book holds its own assets, so an asset changed in a later version does not change an earlier book.
 - renderer#req-11: render `mermaid` blocks as diagrams.
 - renderer#req-12: render a link to the source of each page in `repository`, at the release tag.
 
 ## Special pages
 
-- renderer#req-13: render `terminology.yml` with the layout of *Structure of a Term entry*, *The
-  template*: entry number, preferred term in bold, abbreviation, definition, notes as "Note *n* to
-  entry", and the source in square brackets. Give each entry an anchor from its term.
+- renderer#req-13: render `terminology.yml` with the layout of *Structure of a Term entry*, *The template*: entry number, preferred term in bold, abbreviation, definition, notes as "Note *n* to entry", and the source in square brackets. Give each entry an anchor from its term.
 - renderer#req-14: render `references.yml` as a list per group.
-- renderer#req-15: render a folder listed under `resources` as an index page of its files. Render
-  an OpenAPI file in it as an API reference.
+- renderer#req-15: render a folder listed under `resources` as an index page of its files. Render an OpenAPI file in it as an API reference.
 
 ## Specifications
 
-- renderer#req-16: render each requirement file with its `title` and `capability`, then its
-  requirements, then its body.
-- renderer#req-17: render each requirement with its `id`, its `statement`, every classifier after
-  defaults, its `documentation`, and links to its API operation and test. Give it the anchor
-  `req-<id>`, unique across the book.
+- renderer#req-16: render each requirement file with its `title` and `description`, the titles of the capabilities it realises, and whether it is in the core or in an extension, with the extension's title; then its requirements, then its body.
+- renderer#req-17: render each requirement with its `id`, its `statement`, every classifier after defaults, its `interaction` and `contract`, its `documentation`, and links to its API operation and test. Give it the anchor `req-<id>`, unique across the book.
 - renderer#req-18: render a deprecated requirement struck through, with its status shown.
-- renderer#req-19: render a requirement index page: one row per requirement, sorted by `id`, with
-  the classifiers and a link to the requirement.
-- renderer#req-20: write `requirements.json` at the root of the version's book, with this shape,
-  sorted by `id`:
+- renderer#req-19: render a requirement index page: one row per numbered requirement, sorted by `id`, with its functionality, core or extension, the classifiers, `interaction`, and a link to the requirement.
+- renderer#req-20: write `requirements.json` at the root of the version's book, with this shape, sorted by `id`:
 
   ```json
   {
     "urn": "govstack:spec:bb:wallet",
     "version": "1.2.0",
+    "capabilities": [
+      { "id": "custody", "title": "Credential Custody" }
+    ],
+    "extensions": [
+      { "id": "issuance", "title": "Issuance", "requires": [] }
+    ],
+    "functionalities": [
+      { "title": "Credential Intake", "realises": ["custody"], "conformance": "CORE" }
+    ],
     "requirements": [
       { "id": "1", "status": "PUBLISHED", "level": "REQUIRED", "mutability": "IMMUTABLE",
-        "statement": "..." }
+        "interaction": "FILE", "functionality": "Credential Intake", "statement": "..." }
     ]
   }
   ```
 
-- renderer#req-21: include in `requirements.json` every field passed by
-  `requirements_parser#req-21`, so that the next version's checks can read them. The fields in the
-  example above are the minimum.
-- renderer#req-22: publish a JSON Schema for `requirements.json` in this repository, and validate
-  the file against it before writing.
+- renderer#req-21: include in `requirements.json` every field passed by `requirements_parser#req-21`, so that the next version's checks can read them. The fields in the example above are the minimum.
+- renderer#req-22: publish a JSON Schema for `requirements.json` in this repository, and validate the file against it before writing.
+- renderer#req-23: include in `requirements.json` every requirement that has an `id`, whatever its status, including withdrawn ones, so that the next version's checks count their numbers. Leave out requirements without an `id`.
+- renderer#req-24: render a requirement without an `id` (`DRAFT`, `CANDIDATE`, or `WITHDRAWN` before acceptance) marked as not normative, without a `req-` anchor, and leave it out of the requirement index. A `WITHDRAWN` requirement with an `id` is rendered struck through, as in req-18 (ARCH-ADR-5).
+- renderer#req-25: render, on the requirement index page, the capabilities declared in `metadata.yml`, each with its description and the functionalities that realise it, marking a capability realised only by extensions; and the extensions, each with its description, role, the extensions it requires and its functionalities.
 
 ## Open
 
-- [ ] The static site generator. It must render CommonMark with tables, Mermaid, and custom pages
-  for requirements and terms. It must not need GitBook syntax.
+- [ ] The static site generator. It must render CommonMark with tables, Mermaid, and custom pages for requirements and terms. It must not need GitBook syntax.
 - [ ] Where the book is deployed, by what, and with which credentials (see `index.md`, *Open*).
 - [ ] Does the renderer also produce a PDF of the book?
