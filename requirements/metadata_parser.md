@@ -6,7 +6,7 @@ Reads `metadata.yml`, which identifies the publication and lists its versions. I
 
 - metadata_parser#req-1: read `metadata.yml` as YAML. Fail if it does not parse or is not a map.
 - metadata_parser#req-2: fail if any of `name`, `abstract`, `url`, `repository`, `urn`, `owner_group` or `versions` is missing or empty.
-- metadata_parser#req-3: warn for every top-level key not listed in req-2, or in req-23 in the spec profile.
+- metadata_parser#req-3: warn for every top-level key not listed in req-2, or in req-31 in the spec profile.
 - metadata_parser#req-4: warn if `name` ends with the name of its publication type, such as `Building Block Specification`. The compiler adds the type when it renders the title.
 - metadata_parser#req-5: fail if `url` or `repository` is not an absolute `https` URL.
 - metadata_parser#req-6: fail if `repository` is not the repository being compiled. On GitHub, the repository is read from `GITHUB_REPOSITORY`, and the two are compared without regard to case.
@@ -33,36 +33,31 @@ Reads `metadata.yml`, which identifies the publication and lists its versions. I
 - metadata_parser#req-21: on `release`, compile the version whose `version` is the release tag without its leading `v`. The checks on the tag are in `release.md`.
 - metadata_parser#req-22: pass to the later stages: the publication fields, the version being compiled, whether it is a pre-release, the version URL of every released version (req-17), and the profile read from `urn` (see `profiles.md`).
 
-## Capabilities and extensions
+## Capabilities
 
-A specification declares its capabilities and its extensions in `metadata.yml`. The format is set in the Specification Framework, *Functionalities and Extensions*, sections *Capabilities* (ARCH-TDR-1) and *Extensions* (ARCH-ADR-7). The links from functionalities to them are checked in `requirements_parser.md`.
+A specification declares its capabilities in `metadata.yml`. The format is set in the Specification Framework, *Functionalities and Conformance Profiles*, section *Capabilities* (ARCH-TDR-1). The links from functionalities to them are checked in `requirements_parser.md`. Extensions are no longer declared here: each conformance profile is declared in the front matter of its `introduction.md` (ARCH-ADR-7, `conformance_profile_parser.md`).
 
 ```yaml
 capabilities:
   - id: custody
     title: Credential Custody
     description: A person keeps the credentials issued to them and can use them whenever they need to.
-extensions:
-  - id: issuance
-    title: Issuance
-    description: Obtaining credentials from an Issuer through the issuance exchange.
-    role: Credential Holder, towards the Credential Issuer
-    reference_architecture: govstack:ra:credentials # optional
-    requires: [] # ids of other extensions this one depends on
 ```
 
-- metadata_parser#req-23: in the spec profile, accept the top-level keys `capabilities` and `extensions`. Both are optional. Outside the spec profile, warn if either is present.
+- ~~metadata_parser#req-23~~: `DEPRECATED`. `extensions` is no longer accepted (ARCH-ADR-7), see req-31.
+- metadata_parser#req-31: in the spec profile, accept the top-level key `capabilities`. It is optional. Outside the spec profile, warn if it is present. An `extensions` key is reported by `conformance_profile_parser#req-16`, not by req-3.
 - metadata_parser#req-24: fail if `capabilities` is present and is not a list of maps, each with a non-empty `id`, `title` and `description`. Warn for any other key of a capability.
 - metadata_parser#req-25: fail if a capability `id` uses anything but lowercase letters, digits and hyphens, or if two capabilities have the same `id`.
-- metadata_parser#req-26: fail if `extensions` is present and is not a list of maps, each with a non-empty `id`, `title` and `description`. Warn for any key of an extension other than these, `role`, `reference_architecture` and `requires`.
-- metadata_parser#req-27: fail if an extension `id` uses anything but lowercase letters, digits and hyphens, or if two extensions have the same `id`.
-- metadata_parser#req-28: fail if `reference_architecture` is set and is not a `govstack:ra:<name>` identifier.
-- metadata_parser#req-29: fail if `requires` is not a list, names an id that is not a declared extension, names the extension itself, or forms a cycle between extensions.
-- metadata_parser#req-30: pass the capabilities and the extensions to the later stages.
+- ~~metadata_parser#req-26~~: `DEPRECATED`. Extensions are declared in the introduction of their conformance profile, see `conformance_profile_parser#req-6` and `req-7`.
+- ~~metadata_parser#req-27~~: `DEPRECATED`. The id of a profile is its folder name, see `conformance_profile_parser#req-3`.
+- ~~metadata_parser#req-28~~: `DEPRECATED`. Moved to `conformance_profile_parser#req-11`.
+- ~~metadata_parser#req-29~~: `DEPRECATED`. Moved to `conformance_profile_parser#req-12`.
+- ~~metadata_parser#req-30~~: `DEPRECATED`. Extensions are passed by `conformance_profile_parser#req-18`, see req-32.
+- metadata_parser#req-32: pass the capabilities to the later stages.
 
 ## Open
 
 - [ ] *Compiling Publications* gives `1.0-draft` and `2.0.0-rc` as versions. `1.0-draft` is not valid semantic versioning, which the Specification Framework requires (*Use semantic versioning*). req-16 accepts both forms until this is settled.
 - [ ] `bb-template` writes `urn: govstack:spec:<type>:<name>` and `owner_group: govstack:team:editorial-committee`. A repository created from the template fails req-7 until it is filled in. Should the compiler report placeholders such as `<name>` with a clearer message?
-- [ ] Capability and extension ids are never reused (*Functionalities and Extensions*). The baseline holds only the last release, so an id removed in one release and reused two releases later cannot be detected. Is a record of retired ids needed?
+- [ ] Capability ids, conformance profile ids and option keys are never reused (*Functionalities and Conformance Profiles*; ARCH-ADR-6, *Keys*). The baseline holds only the last release, so an id removed in one release and reused two releases later cannot be detected. Is a record of retired ids needed?
 - [ ] Should the compiler check that `url` resolves as *GovStack Namespaces* says it should, for example `https://specs.govstack.global/bb-<name>/` for `govstack:spec:bb:<name>`?

@@ -10,9 +10,7 @@ with optional YAML front matter, or one of the YAML pages listed in `toc_parser#
   `---`. Fail if the front matter does not parse or is not a map.
 - page_parser#req-3: take the page title from the front matter `title`. If there is none, take the
   first level-1 heading. If there is neither, warn and use the file name.
-- page_parser#req-4: accept the front matter keys `title`, `status`, `authors` and `references` on
-  any page. In the spec profile, also accept the keys of a requirement file (see
-  `requirements_parser.md`). Warn for every other key.
+- page_parser#req-4: accept the front matter keys `title`, `status`, `authors` and `references` on any page. In the spec profile, also accept the keys of a functionality file (`requirements_parser.md`) on a functionality file, and the keys of a profile declaration (`conformance_profile_parser#req-6`) on the `introduction.md` of a conformance profile. Warn for every other key.
 - page_parser#req-5: parse the body as CommonMark with GitHub tables, task lists and fenced code
   blocks.
 - ~~page_parser#req-6~~: `DEPRECATED`. Tags are parsed by `tag_parser.md`; paths under `.gitbook/` are req-20.

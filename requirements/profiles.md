@@ -56,8 +56,7 @@ Every profile runs these checks. They are listed in *Compiling Publications*, *C
 
 ## spec profile
 
-- profiles#req-12: parse every file under `requirements` in `toc.yml` with
-  `requirements_parser.md`.
+- profiles#req-12: read the conformance profiles with `conformance_profile_parser.md`, then parse every functionality file listed under `conformance-profiles` in `toc.yml`, or under `requirements` in the legacy layout, with `requirements_parser.md`.
 - profiles#req-13: run `requirement_id_checker.md`.
 - profiles#req-14: render the requirement index (`renderer.md`).
 

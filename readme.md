@@ -9,8 +9,9 @@ The rules the compiler implements are set in other publications. This folder sta
 | GovStack Process, chapter *Compiling Publications* | Repository layout, `metadata.yml`, `authors.yml`, `toc.yml`, profiles, requirement identifier checks, release, outputs |
 | GovStack Process, chapter *GovStack Namespaces* | Identifier syntax, publication namespaces, retired namespaces, person identifiers |
 | GovStack Process, chapter *GovStack Records* | Records files, release and person records |
-| Specification Framework, *Structure of Specifications*, *Requirements* and *Functionalities and Extensions* | Requirement files, classifiers, interaction types, capabilities, core and extensions (spec profile) |
-| Specification Framework, *Versioning and Change Documentation* | Release types of changes to requirements, functionalities and extensions (spec profile) |
+| Specification Framework, *Structure of Specifications*, *Requirements* and *Functionalities and Conformance Profiles* (formerly *Functionalities and Extensions*) | Conformance profiles, functionality files, classifiers, interaction types and verification, options and conditions, capabilities (spec profile) |
+| Specification Framework, *Versioning and Change Documentation* | Release types of changes to requirements, options, functionalities and conformance profiles (spec profile) |
+| Specification Framework, ARCH-ADR-6, ARCH-ADR-7 and ARCH-ADR-8 (proposed) | Options and conditional requirements, conformance profiles, verification inferred from `interaction`. The checks that follow them name them |
 | Crafting GovStack Terminologies, *Structure of a Term entry* | Term entries (terminology profile) |
 
 ## Requirement files
@@ -23,9 +24,10 @@ The rules the compiler implements are set in other publications. This folder sta
 | `authors_compiler.md` | `authors.yml` and the person records written to GovStack Records |
 | `toc_parser.md` | `toc.yml` and the ordered list of pages |
 | `page_parser.md` | Markdown pages, front matter, YAML pages, links and assets |
-| `profiles.md` | Choosing the profile from the `urn`, and the checks of each profile |
 | `tag_parser.md` | `{% … %}` tags in Markdown pages: hints, tabs, steps, includes and others |
-| `requirements_parser.md` | Requirement files of a specification (spec profile) |
+| `profiles.md` | Choosing the profile from the `urn`, and the checks of each profile |
+| `conformance_profile_parser.md` | Conformance profiles of a specification: their folders and the declarations in their introductions (spec profile) |
+| `requirements_parser.md` | Functionality files of a specification and their requirements, options and conditions (spec profile) |
 | `requirement_id_checker.md` | Requirement identifier stability against the baseline (spec profile) |
 | `terminology_parser.md` | `terminology.yml` term entries |
 | `records_client.md` | Reading GovStack Records |
@@ -76,10 +78,10 @@ Check and render any publication on a pull request, without GovStack Records.
 
 ### Second milestone: Specifications and terminologies
 
-- `requirements_parser.md`, `terminology_parser.md`.
+- `conformance_profile_parser.md`, `requirements_parser.md`, `terminology_parser.md`.
 - `tag_parser.md`: `openapi`.
 - `profiles.md`: spec and terminology profiles.
-- `renderer.md`: the requirement index, `requirements.json`.
+- `renderer.md`: conformance profiles, the requirement index, views by key, `requirements.json`.
 - `requirement_id_checker.md`: checks 1 and 3 against the default branch, and the first-release case. These need no GovStack Records.
 
 ### Third milestone: Records and release
