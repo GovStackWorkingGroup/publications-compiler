@@ -91,5 +91,5 @@ Check and render any publication on a pull request, without GovStack Records.
 ## Open
 
 - [ ] Implementation language. The compiler runs as a reusable GitHub Action, but should also run locally so that a Working Group can check before it pushes.
-- [ ] Where the rendered book is deployed, and by what. *Compiling Publications* says the book is served at `url` + `url_suffix` but not which host serves it.
+- [ ] Where the rendered book is deployed, and by what. *Compiling Publications* says the book is served at its version URL but not which host serves it.
 - [ ] The rendering engine (static site generator), see `renderer.md`.

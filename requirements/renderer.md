@@ -9,15 +9,15 @@ Renders the book: a static website of one version of a publication. The outputs 
 
 ## The book
 
-- renderer#req-3: write the book of the version to `<output>/<url_suffix>/`.
+- renderer#req-3: write the book of the version to `<output>/<path>/`, where `<path>` is the path of the version URL (`metadata_parser#req-17`). For example, `<output>/bb-wallet/1.2.0/`.
 - renderer#req-4: if the version is marked `latest`, also write it to the path of `url`.
 - renderer#req-5: title the book with `name` followed by the name of the publication type, read from the profile and the `urn`. For example, `name: Wallet` and `urn: govstack:spec:bb:wallet` give *Wallet Building Block Specification*.
 - renderer#req-6: render a front page with the title, `abstract`, the version, its `release_date` and `short_description`, the `urn`, the owner group and the authors with their roles.
 - renderer#req-7: render a navigation that follows `toc.yml`: sections, then subsections as headings, then pages, in the order listed.
-- renderer#req-8: render a version list from `versions` in `metadata.yml`, with a link to each released version at its `url_suffix`.
+- renderer#req-8: render a version list from `versions` in `metadata.yml`, with a link to each released version at its version URL.
 - renderer#req-9: render every page listed in `toc.yml` and no other page.
 - renderer#req-10: copy `assets/` and every file a page links to into the book.
-- renderer#req-26: copy `assets/` to `<output>/<url_suffix>/assets/`, and to the path of `url` when req-4 applies, and rewrite every `/assets/<path>` reference (`page_parser#req-16`) to that version's copy. Each version of the book holds its own assets, so an asset changed in a later version does not change an earlier book.
+- renderer#req-26: copy `assets/` to `<output>/<path>/assets/`, with `<path>` as in req-3,, and to the path of `url` when req-4 applies, and rewrite every `/assets/<path>` reference (`page_parser#req-16`) to that version's copy. Each version of the book holds its own assets, so an asset changed in a later version does not change an earlier book.
 - renderer#req-11: render `mermaid` blocks as diagrams.
 - renderer#req-12: render a link to the source of each page in `repository`, at the release tag.
 

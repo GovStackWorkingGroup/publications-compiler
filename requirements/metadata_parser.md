@@ -23,15 +23,15 @@ Reads `metadata.yml`, which identifies the publication and lists its versions. I
 - metadata_parser#req-14: fail if a `release_date` is not empty and is not `YYYY-MM` or `YYYY-MM-DD`.
 - metadata_parser#req-15: fail unless exactly one entry has `latest: true`. Warn for every entry with `latest: false`: on every entry but one, `latest` is omitted.
 - metadata_parser#req-16: parse each `version` as `MAJOR.MINOR[.PATCH][-SUFFIX]`. Fail if it does not parse. A version with a `SUFFIX` is a pre-release.
-- metadata_parser#req-17: fail if a version without a pre-release suffix has no `url_suffix`.
-- metadata_parser#req-18: fail if a `url_suffix` does not start with `/` or ends with `/`.
+- metadata_parser#req-17: derive the URL of each version without a pre-release suffix: `url`, without a trailing `/`, followed by `/` and `version`. For example, `url: https://specs.govstack.global/bb-wallet/` and `version: 1.2.0` give `https://specs.govstack.global/bb-wallet/1.2.0`. This is the version URL. A pre-release has no version URL: it is not rendered (`renderer#req-1`).
+- metadata_parser#req-18: warn if a version entry has a `url_suffix` key, and ignore its value. The message says that the version URL is derived from `url` and `version` (req-17) and that the key can be deleted. This warning replaces the one of req-19 for this key.
 - metadata_parser#req-19: warn if a version entry has a key not listed in *Compiling Publications*.
 
 ## The version being compiled
 
 - metadata_parser#req-20: on `pull_request`, compile the version marked `latest`.
 - metadata_parser#req-21: on `release`, compile the version whose `version` is the release tag without its leading `v`. The checks on the tag are in `release.md`.
-- metadata_parser#req-22: pass to the later stages: the publication fields, the version being compiled, whether it is a pre-release, and the profile read from `urn` (see `profiles.md`).
+- metadata_parser#req-22: pass to the later stages: the publication fields, the version being compiled, whether it is a pre-release, the version URL of every released version (req-17), and the profile read from `urn` (see `profiles.md`).
 
 ## Capabilities and extensions
 

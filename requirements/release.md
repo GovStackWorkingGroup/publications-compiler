@@ -48,7 +48,7 @@ Before any check, on the `release` event.
   decided_by: govstack:team:editorial-committee
   ```
 
-  `url` is the site root followed by `url_suffix`.
+  `url` is the version URL (`metadata_parser#req-17`).
 - release#req-13: never change or delete an existing record file.
 - release#req-14: name the branch `release/<name>-<version>`, and title the pull request
   `Release <urn> <version>`. Link the GitHub release in its description.
