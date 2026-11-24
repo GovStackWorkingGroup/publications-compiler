@@ -18,7 +18,7 @@ Renders the book: a static website of one version of a publication. The outputs 
 - renderer#req-8: render a version list from `versions` in `metadata.yml`, with a link to each released version at its version URL.
 - renderer#req-9: render every page listed in `toc.yml` and no other page of the repository. The pages the compiler generates, the requirement index (req-43) and the views by key (req-41), are added to these.
 - renderer#req-10: copy `assets/` and every file a page links to into the book.
-- renderer#req-26: copy `assets/` to `<output>/<path>/assets/`, with `<path>` as in req-3,, and to the path of `url` when req-4 applies, and rewrite every `/assets/<path>` reference (`page_parser#req-16`) to that version's copy. Each version of the book holds its own assets, so an asset changed in a later version does not change an earlier book.
+- renderer#req-26: copy `assets/` to `<output>/<path>/assets/`, with `<path>` as in req-3, and to the path of `url` when req-4 applies, and rewrite every `/assets/<path>` reference (`page_parser#req-16`) to that version's copy. Each version of the book holds its own assets, so an asset changed in a later version does not change an earlier book.
 - renderer#req-11: render `mermaid` blocks as diagrams.
 - renderer#req-12: render a link to the source of each page in `repository`, at the release tag.
 
