@@ -34,6 +34,7 @@ Every profile runs these checks. They are listed in *Compiling Publications*, *C
 | 5 | Not obsolete (release only) | profiles#req-6 |
 | 6 | `authors.yml` complete | `authors_compiler.md` |
 | 7 | `toc.yml` valid | `toc_parser.md` |
+| 8 | Pages follow *Writing Pages* (proposed, PROC-ADR-5) | `page_parser.md`, `tag_parser.md` |
 
 - profiles#req-4: fail if `records_client.md` finds no proposal record with `decision: approved`
   for the `urn`.

@@ -24,6 +24,7 @@ The rules the compiler implements are set in other publications. This folder sta
 | `toc_parser.md` | `toc.yml` and the ordered list of pages |
 | `page_parser.md` | Markdown pages, front matter, YAML pages, links and assets |
 | `profiles.md` | Choosing the profile from the `urn`, and the checks of each profile |
+| `tag_parser.md` | `{% … %}` tags in Markdown pages: hints, tabs, steps, includes and others |
 | `requirements_parser.md` | Requirement files of a specification (spec profile) |
 | `requirement_id_checker.md` | Requirement identifier stability against the baseline (spec profile) |
 | `terminology_parser.md` | `terminology.yml` term entries |
@@ -69,13 +70,14 @@ repository ─► layout ─► metadata ─► authors ─► toc ─► pages 
 
 Check and render any publication on a pull request, without GovStack Records.
 
-- `repository_layout.md`, `metadata_parser.md`, `authors_compiler.md` (parsing only), `toc_parser.md`, `page_parser.md`, `renderer.md` (book only).
+- `repository_layout.md`, `metadata_parser.md`, `authors_compiler.md` (parsing only), `toc_parser.md`, `page_parser.md`, `tag_parser.md` (except `openapi`), `renderer.md` (book only).
 - `profiles.md`: profile selection, and the process, ra and guide profiles.
 - `workflow.md`: the pull request job.
 
 ### Second milestone: Specifications and terminologies
 
 - `requirements_parser.md`, `terminology_parser.md`.
+- `tag_parser.md`: `openapi`.
 - `profiles.md`: spec and terminology profiles.
 - `renderer.md`: the requirement index, `requirements.json`.
 - `requirement_id_checker.md`: checks 1 and 3 against the default branch, and the first-release case. These need no GovStack Records.

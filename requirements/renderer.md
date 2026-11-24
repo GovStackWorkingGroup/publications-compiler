@@ -28,6 +28,20 @@ Renders the book: a static website of one version of a publication. The outputs 
 - renderer#req-15: render a folder listed under `resources` as an index page of its files. Render an OpenAPI file in it as an API reference.
 
 ## Specifications
+## Tags
+
+The tags are parsed by `tag_parser.md` and reach the renderer in canonical form (`tag_parser#req-30`).
+
+- renderer#req-27: render every tag so that its content can be read without JavaScript and when printed. Interaction, such as switching tabs, is an addition, not the only way to reach the content.
+- renderer#req-28: render a `hint` as a callout with a label and a colour per `style`: `info` as *Note*, `success` as *Tip*, `warning` as *Caution*, `danger` as *Danger*. In Starlight, an aside of type `note`, `tip`, `caution` or `danger`.
+- renderer#req-29: render `tabs` as tabs titled by each `tab`'s `title`, the first one open. When printed, render every tab in order under its title.
+- renderer#req-30: render `stepper` as a numbered list of steps, each holding its body.
+- renderer#req-31: render `code` as its code block with `title` above it, line numbers when `lineNumbers` is `true`, and wrapped lines when `overflow` is `wrap`.
+- renderer#req-32: render `content-ref` as a card with the title of the target and a link to it.
+- renderer#req-33: render `file` as a download link with the file name, its type and size, and the caption.
+- renderer#req-34: render `embed` as a link to its `url`, with its caption and the host name. Never load content from `url` in the book.
+- renderer#req-35: render `openapi` as the operation: method, path, summary, parameters, request body and responses, with the anchor `op-<operationId>`. Link it to every requirement whose `api_operation_id` is that `operationId`, and link those requirements to it.
+
 
 - renderer#req-16: render each requirement file with its `title` and `description`, the titles of the capabilities it realises, and whether it is in the core or in an extension, with the extension's title; then its requirements, then its body.
 - renderer#req-17: render each requirement with its `id`, its `statement`, every classifier after defaults, its `interaction` and `contract`, its `documentation`, and links to its API operation and test. Give it the anchor `req-<id>`, unique across the book.

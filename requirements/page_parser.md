@@ -15,8 +15,9 @@ with optional YAML front matter, or one of the YAML pages listed in `toc_parser#
   `requirements_parser.md`). Warn for every other key.
 - page_parser#req-5: parse the body as CommonMark with GitHub tables, task lists and fenced code
   blocks.
-- page_parser#req-6: warn on GitBook syntax that will not render, such as `{% hint %}`,
-  `{% embed %}`, `{% tabs %}` and `<figure>` with paths under `.gitbook/`.
+- ~~page_parser#req-6~~: `DEPRECATED`. Tags are parsed by `tag_parser.md`; paths under `.gitbook/` are req-20.
+- page_parser#req-19: parse `{% … %}` tags with `tag_parser.md` before the checks of links and assets, so that those checks see included text and the links in tag attributes.
+- page_parser#req-20: warn on a link, image or `<figure>` whose path is under `.gitbook/`, and say that the file belongs under `assets/`.
 
 ## Links and assets
 
